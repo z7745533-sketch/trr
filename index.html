@@ -145,16 +145,6 @@
     .badge-livery { background: var(--neon-purple); color: #fff; box-shadow: 0 0 10px var(--neon-purple); }
     .badge-w16 { background: var(--neon-yellow); color: #000; box-shadow: 0 0 10px var(--neon-yellow); }
 
-    .card-top-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 8px; }
-    .icon-btn {
-      background: rgba(5, 5, 8, 0.8); border: 1px solid var(--border-color); color: #fff;
-      width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; transition: 0.3s;
-    }
-
-    .icon-btn.fav.active { color: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
-    .icon-btn.comp.active { color: var(--neon-cyan); border-color: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
-
     .card-body { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
     .seller-info { font-size: 0.75rem; color: var(--neon-cyan); font-weight: 700; text-transform: uppercase; }
     .car-title { font-size: 1.25rem; font-weight: 800; margin: 4px 0 10px 0; }
@@ -171,7 +161,6 @@
     }
 
     .cyber-price { font-size: 1.25rem; font-weight: 900; color: var(--neon-green); text-shadow: 0 0 8px rgba(0, 255, 102, 0.4); }
-    .cyber-price.coin { color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255, 230, 0, 0.4); }
 
     /* --- MODALS & FORM ELEMENTS --- */
     .modal-overlay {
@@ -209,6 +198,8 @@
     .checkbox-label {
       display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;
     }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; display: block; }
   </style>
 </head>
 <body>
@@ -242,72 +233,105 @@
     <!-- Filter Box -->
     <div class="filter-box">
       <div class="filter-grid">
-        <input type="text" id="searchInput" class="input-cyber" placeholder="Araç adı, satıcı adresi ara..." oninput="filterCars()">
-        <select id="sortSelect" class="input-cyber" onchange="filterCars()">
+        <input type="text" id="searchInput" class="input-cyber" placeholder="Araç adı, satıcı adresi ara...">
+        <select id="sortSelect" class="input-cyber">
           <option value="newest">⚡ En Yeni İlanlar</option>
           <option value="hp-desc">🚀 En Yüksek HP</option>
           <option value="km-asc">🛣️ En Düşük KM</option>
           <option value="price-asc">💰 Fiyat (Düşükten Yükseğe)</option>
         </select>
-        <input type="number" id="minHpInput" class="input-cyber" placeholder="Min HP..." oninput="filterCars()">
+        <input type="number" id="minHpInput" class="input-cyber" placeholder="Min HP...">
       </div>
 
       <div class="pills-group">
-        <button class="pill-cyber active" onclick="setCategory('all', this)">Tüm Garaj</button>
-        <button class="pill-cyber" onclick="setCategory('deal', this)">🔥 Fırsat Araçlar</button>
-        <button class="pill-cyber" onclick="setCategory('livery', this)">🎨 Çizimli / Livery</button>
-        <button class="pill-cyber" onclick="setCategory('w16', this)">⚡ W16 Motor</button>
-        <button class="pill-cyber" onclick="setCategory('coin', this)">🪙 Coin İle Satılanlar</button>
-        <button class="pill-cyber" onclick="setCategory('favs', this)">♥ Favorilerim</button>
+        <button class="pill-cyber active">Tüm Garaj</button>
+        <button class="pill-cyber">🔥 Fırsat Araçlar</button>
+        <button class="pill-cyber">🎨 Çizimli / Livery</button>
+        <button class="pill-cyber">⚡ W16 Motor</button>
+        <button class="pill-cyber">🪙 Coin İle Satılanlar</button>
       </div>
     </div>
 
     <!-- Gallery Grid -->
-    <div class="gallery-grid" id="carGallery"></div>
+    <div class="gallery-grid" id="carGallery">
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+        <h3>🏎️ Henüz Yayınlanmış İlan Bulunmuyor</h3>
+        <p>Aşağıdaki "İlan Gönder" butonuna tıklayarak ilk ilanı doğrudan e-posta ile iletebilirsin.</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Add Listing Modal (GÖRSEL VE GMAIL DESTEKLİ) -->
+  <!-- ADD LISTING MODAL (FORMSPREE INTEGRATED) -->
   <div class="modal-overlay" id="addModal">
     <div class="modal-content">
       <button class="close-btn" onclick="closeAddModal()">✕</button>
-      <h2 style="color: var(--neon-cyan); margin-bottom: 15px;">📢 İlan Gönder (Gmail Direct)</h2>
+      <h2 style="color: var(--neon-cyan); margin-bottom: 15px;">📢 İlan Gönder (Formspree Direct)</h2>
       
-      <div style="display:flex; flex-direction:column; gap: 12px;">
-        <div>
-          <label style="font-size:0.8rem; color:var(--text-muted);">Araç Görseli Seçin:</label>
+      <!-- FORMSPREE ENTEGRASYONLU FORM -->
+      <form action="https://formspree.io/f/"xzbwnqpk method="POST">
+        
+        <div class="form-group">
+          <label for="userEmail">E-posta Adresiniz (Geri Dönüş İçin):</label>
+          <input type="email" name="Gönderen Email" id="userEmail" class="input-cyber" placeholder="ornek@gmail.com" required>
+        </div>
+
+        <div class="form-group">
+          <label>Araç Görseli Önizleme / Yükleme:</label>
           <input type="file" id="formImgInput" class="input-cyber" accept="image/*" onchange="previewImage(event)">
+          <!-- Formspree Görsel Base64 Gizli Alanı -->
+          <input type="hidden" name="Görsel Verisi (Base64)" id="formImgBase64">
           <div class="img-preview-box">
-            <span class="img-preview-placeholder" id="previewPlaceholder">🖼️ Görsel Önizleme Alanı</span>
+            <span class="img-preview-placeholder" id="previewPlaceholder">🖼️ Görsel Seçin (Sıkıştırılıp Gönderilir)</span>
             <img id="imagePreview" alt="Önizleme">
           </div>
         </div>
 
-        <input type="text" id="formCarName" class="input-cyber" placeholder="Araç Modeli (Örn: BMW M5 CS)">
-        <input type="text" id="formSeller" class="input-cyber" placeholder="Satıcı İsim / Nick">
+        <div class="form-group">
+          <label for="formCarName">Araç Modeli:</label>
+          <input type="text" name="Araç Modeli" id="formCarName" class="input-cyber" placeholder="Örn: BMW M5 CS" required>
+        </div>
+
+        <div class="form-group">
+          <label for="formSeller">Satıcı İsim / Nick:</label>
+          <input type="text" name="Satıcı Nick" id="formSeller" class="input-cyber" placeholder="Örn: Yakup" required>
+        </div>
         
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <input type="number" id="formHp" class="input-cyber" placeholder="Güç (HP)">
-          <input type="number" id="formKm" class="input-cyber" placeholder="Kilometre (KM)">
+          <div class="form-group">
+            <label for="formHp">Motor Gücü (HP):</label>
+            <input type="number" name="HP" id="formHp" class="input-cyber" placeholder="1690">
+          </div>
+          <div class="form-group">
+            <label for="formKm">Kilometre (KM):</label>
+            <input type="number" name="KM" id="formKm" class="input-cyber" placeholder="500">
+          </div>
         </div>
 
-        <input type="text" id="formPrice" class="input-cyber" placeholder="Fiyat (Örn: 5.000.000$ veya 250 Coin)">
-        <input type="text" id="formSocial" class="input-cyber" placeholder="Instagram / TikTok / Discord İletişim">
+        <div class="form-group">
+          <label for="formPrice">Satış Fiyatı:</label>
+          <input type="text" name="Fiyat" id="formPrice" class="input-cyber" placeholder="Örn: 5.000.000$ veya 250 Coin" required>
+        </div>
+
+        <div class="form-group">
+          <label for="formSocial">İletişim Adresi (Instagram/Discord/Tel):</label>
+          <input type="text" name="İletişim Adresi" id="formSocial" class="input-cyber" placeholder="@kullanici_adi" required>
+        </div>
 
         <div class="checkbox-group">
-          <label class="checkbox-label"><input type="checkbox" id="formW16"> ⚡ W16 Motor Var</label>
-          <label class="checkbox-label"><input type="checkbox" id="formLivery"> 🎨 Özel Çizim/Livery</label>
-          <label class="checkbox-label"><input type="checkbox" id="formDeal"> 🔥 Acil / Fırsat İlanı</label>
+          <label class="checkbox-label"><input type="checkbox" name="W16 var mı?" value="EVET"> ⚡ W16 Motor Var</label>
+          <label class="checkbox-label"><input type="checkbox" name="Çizim var mı?" value="EVET"> 🎨 Özel Çizim/Livery</label>
+          <label class="checkbox-label"><input type="checkbox" name="Acil İlan mı?" value="EVET"> 🔥 Fırsat İlanı</label>
         </div>
         
-        <button class="btn-cyber" style="margin-top: 10px; background: linear-gradient(45deg, var(--neon-green), #00b0ff); color:#000;" onclick="submitListingToGmail()">📧 Gmail İle Doğrudan Gönder</button>
-      </div>
+        <button type="submit" class="btn-cyber" style="width:100%; margin-top: 15px; background: linear-gradient(45deg, var(--neon-green), #00b0ff); color:#000;">
+          🚀 İlanı Doğrudan Gmail'e Gönder
+        </button>
+      </form>
     </div>
   </div>
 
   <script>
     const rawCars = [];
-    let favorites = [];
-    let uploadedImageBase64 = "";
 
     function updateStats() {
       document.getElementById('statTotal').textContent = rawCars.length;
@@ -315,7 +339,7 @@
       document.getElementById('statDeals').textContent = rawCars.filter(c => c.isDeal).length;
     }
 
-    // Görsel Yükleme ve Sıkıştırma Fonksiyonu
+    // Görsel Sıkıştırma ve Formspree İçin Hazırlama
     function previewImage(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -326,75 +350,30 @@
         img.src = e.target.result;
 
         img.onload = function() {
-          // E-posta boyutunu optimize etmek için görseli küçük boyutlu canvas ile sıkıştırıyoruz
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
-          const maxWidth = 500;
+          const maxWidth = 450;
           const scaleSize = maxWidth / img.width;
           canvas.width = maxWidth;
           canvas.height = img.height * scaleSize;
 
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          uploadedImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          const base64Img = canvas.toDataURL('image/jpeg', 0.6);
 
+          // Önizleme ayarla ve Formspree hidden inputuna yaz
           const previewImg = document.getElementById("imagePreview");
-          previewImg.src = uploadedImageBase64;
+          previewImg.src = base64Img;
           previewImg.style.display = "block";
           document.getElementById("previewPlaceholder").style.display = "none";
+          document.getElementById("formImgBase64").value = base64Img;
         };
       };
       reader.readAsDataURL(file);
     }
 
-    function submitListingToGmail() {
-      const targetEmail = "yakupsefayozgat66@gmail.com";
-      const name = document.getElementById("formCarName").value;
-      const seller = document.getElementById("formSeller").value;
-      const hp = document.getElementById("formHp").value;
-      const km = document.getElementById("formKm").value;
-      const price = document.getElementById("formPrice").value;
-      const social = document.getElementById("formSocial").value;
-      const hasW16 = document.getElementById("formW16").checked ? "EVET" : "YOK";
-      const hasLivery = document.getElementById("formLivery").checked ? "EVET" : "YOK";
-      const isDeal = document.getElementById("formDeal").checked ? "EVET" : "HAYIR";
-
-      if(!name || !seller || !social || !price) {
-        return alert("Lütfen Araç Adı, Satıcı, Fiyat ve İletişim bilgilerini doldurunuz!");
-      }
-
-      const emailSubject = encodeURIComponent(`[CPM İLAN TALEBİ] - ${name} (${seller})`);
-      
-      let emailBody = `Selam Yakup,\n\nCPM Galeri için yeni bir ilan talebim var:\n\n` +
-        `🚗 Araç Modeli: ${name}\n` +
-        `👤 Satıcı Adı: ${seller}\n` +
-        `⚡ Motor Gücü: ${hp} HP\n` +
-        `🛣️ Kilometre: ${km} KM\n` +
-        `💰 Fiyat: ${price}\n` +
-        `📱 İletişim / Sosyal Medya: ${social}\n` +
-        `⚡ W16 Motor: ${hasW16}\n` +
-        `🎨 Çizim/Livery: ${hasLivery}\n` +
-        `🔥 Fırsat İlanı Mı?: ${isDeal}\n\n`;
-
-      if(uploadedImageBase64) {
-        emailBody += `🖼️ [GÖRSEL VERİSİ EKLENDİ]\nResim Kodu (Aşağıdaki Kodu Kopyalayabilirsiniz):\n${uploadedImageBase64.substring(0, 100)}... (Devamı eklendi)`;
-      } else {
-        emailBody += `⚠️ Not: Görsel seçilmedi.`;
-      }
-
-      // Mailto Link Oluşturma
-      const mailtoUrl = `mailto:${targetEmail}?subject=${emailSubject}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Panoya kopyala
-      navigator.clipboard.writeText(emailBody);
-      alert("İlan bilgileri ve e-posta şablonu kopyalandı! Gmail açılıyor...");
-      
-      window.location.href = mailtoUrl;
-      closeAddModal();
-    }
-
     function openAddModal() { document.getElementById("addModal").style.display = "flex"; }
     function closeAddModal() { document.getElementById("addModal").style.display = "none"; }
-    
+
     updateStats();
   </script>
 </body>
