@@ -337,37 +337,8 @@
   </div>
 
   <script>
-    // Örnek başlangıç ilanları
-    const rawCars = [
-      {
-        id: 1,
-        title: "Bugatti Chiron W16",
-        seller: "CyberRacer",
-        hp: 1690,
-        km: 120,
-        price: "10.000.000$",
-        rawPrice: 10000000,
-        isCoin: false,
-        hasW16: true,
-        hasLivery: true,
-        isDeal: true,
-        image: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=600&auto=format&fit=crop&q=60"
-      },
-      {
-        id: 2,
-        title: "BMW M5 F90 Special",
-        seller: "DriftKing",
-        hp: 925,
-        km: 450,
-        price: "500 Coin",
-        rawPrice: 500,
-        isCoin: true,
-        hasW16: false,
-        hasLivery: true,
-        isDeal: false,
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&auto=format&fit=crop&q=60"
-      }
-    ];
+    // İlanlar temizlendi (Boş liste)
+    const rawCars = [];
 
     let favorites = [];
     let currentCategory = 'all';
@@ -427,8 +398,8 @@
       if(filtered.length === 0) {
         gallery.innerHTML = `
           <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
-            <h3>🏎️ Hiç Araç Bulunamadı</h3>
-            <p>Filtreleri değiştirmeyi veya yeni bir ilan eklemeyi deneyebilirsin.</p>
+            <h3>🏎️ Henüz Yayınlanmış İlan Bulunmuyor</h3>
+            <p>Yukarıdaki "İlan Gönder" butonuna tıklayarak ilk ilanı doğrudan gönderebilirsin.</p>
           </div>
         `;
         return;
