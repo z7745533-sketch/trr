@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPM Cyber-Neon Gallery v5.2</title>
+  <title>CPM Cyber-Neon Gallery v5.3</title>
   <style>
     :root {
       --bg-main: #050508;
@@ -193,7 +193,7 @@
     }
 
     .img-preview-box {
-      width: 100%; height: 150px; border: 2px dashed var(--neon-cyan);
+      width: 100%; height: 160px; border: 2px dashed var(--neon-cyan);
       border-radius: 10px; display: flex; align-items: center; justify-content: center;
       margin-top: 8px; background: var(--card-inner); overflow: hidden; position: relative;
     }
@@ -283,12 +283,11 @@
         </div>
 
         <div class="form-group">
-          <label>Araç Görseli Seçin:</label>
-          <input type="file" id="formImgInput" class="input-cyber" accept="image/*" onchange="previewImage(event)">
-          <input type="hidden" name="Görsel Verisi (Base64)" id="formImgBase64">
+          <label for="formImgUrl">Araç Fotoğraf Linki (URL):</label>
+          <input type="url" name="Görsel Bağlantısı (URL)" id="formImgUrl" class="input-cyber" placeholder="https://i.imgur.com/ornek.jpg" oninput="previewImageFromUrl(this.value)" required>
           <div class="img-preview-box">
-            <span class="img-preview-placeholder" id="previewPlaceholder">🖼️ Görsel Önizleme Alanı</span>
-            <img id="imagePreview" alt="Önizleme">
+            <span class="img-preview-placeholder" id="previewPlaceholder">🔗 Geçerli bir resim linki girdiğinizde önizleme görünecektir.</span>
+            <img id="imagePreview" alt="Görsel Önizleme" onerror="handleImageError()">
           </div>
         </div>
 
@@ -337,9 +336,7 @@
   </div>
 
   <script>
-    // İlanlar temizlendi (Boş liste)
     const rawCars = [];
-
     let favorites = [];
     let currentCategory = 'all';
 
@@ -390,7 +387,6 @@
         return matchesSearch && matchesHp && matchesCategory;
       });
 
-      // Sıralama
       if(sort === 'hp-desc') filtered.sort((a,b) => b.hp - a.hp);
       if(sort === 'km-asc') filtered.sort((a,b) => a.km - b.km);
       if(sort === 'price-asc') filtered.sort((a,b) => a.rawPrice - b.rawPrice);
@@ -438,40 +434,33 @@
       }).join('');
     }
 
-    function previewImage(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    // Link tabanlı önizleme mantığı
+    function previewImageFromUrl(url) {
+      const img = document.getElementById("imagePreview");
+      const placeholder = document.getElementById("previewPlaceholder");
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.src = e.target.result;
+      if (url.trim() !== "") {
+        img.src = url;
+        img.style.display = "block";
+        placeholder.style.display = "none";
+      } else {
+        img.style.display = "none";
+        placeholder.style.display = "block";
+        placeholder.textContent = "🔗 Geçerli bir resim linki girdiğinizde önizleme görünecektir.";
+      }
+    }
 
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          const maxWidth = 450;
-          const scaleSize = maxWidth / img.width;
-          canvas.width = maxWidth;
-          canvas.height = img.height * scaleSize;
-
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          const base64Img = canvas.toDataURL('image/jpeg', 0.6);
-
-          const previewImg = document.getElementById("imagePreview");
-          previewImg.src = base64Img;
-          previewImg.style.display = "block";
-          document.getElementById("previewPlaceholder").style.display = "none";
-          document.getElementById("formImgBase64").value = base64Img;
-        };
-      };
-      reader.readAsDataURL(file);
+    function handleImageError() {
+      const img = document.getElementById("imagePreview");
+      const placeholder = document.getElementById("previewPlaceholder");
+      img.style.display = "none";
+      placeholder.style.display = "block";
+      placeholder.textContent = "⚠️ Görsel yüklenemedi. Lütfen geçerli bir direkt resim linki girdiğinizden emin olun.";
     }
 
     function openAddModal() { document.getElementById("addModal").style.display = "flex"; }
     function closeAddModal() { document.getElementById("addModal").style.display = "none"; }
 
-    // Başlangıç Çalıştırması
     updateStats();
     renderGallery();
   </script>
