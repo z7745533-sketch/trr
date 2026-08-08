@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPM Cyber-Neon Gallery v5.5</title>
+  <title>CPM Cyber-Neon Gallery v5.6</title>
   <style>
     :root {
       --bg-main: #050508;
@@ -108,7 +108,7 @@
       box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); border-color: var(--neon-cyan);
     }
 
-    /* --- GALLERY GRID & PREMIUM NEON CARDS --- */
+    /* --- GALLERY GRID & NEON CARDS --- */
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 25px; }
 
     .neon-card {
@@ -236,7 +236,7 @@
   </div>
 
   <script>
-    // Mercedes Tır İlan Verisi
+    // Mercedes Tır İlan Verisi (Resim Doğrudan İnternet URL'si İle Bağlandı)
     const rawCars = [
       {
         id: 1,
@@ -247,7 +247,8 @@
         km: 200,
         price: "TEKLİF ALINIR",
         rawPrice: 0,
-        image: "WhatsApp Image 2026-08-08 at 13.02.04.jpeg",
+        // Hızlıresim Direct Link Bağlantısı
+        image: "https://i.hizliresim.com/5l3q3o8.jpg",
         hasW16: false,
         hasLivery: true, 
         isDeal: true,
@@ -324,7 +325,7 @@
         return `
           <div class="neon-card">
             <div class="card-img-wrap">
-              <img src="${car.image}" alt="${car.title}" onerror="this.src='https://via.placeholder.com/600x400/121522/00f3ff?text=Mercedes+Tir'">
+              <img src="${car.image}" alt="${car.title}">
               <div class="card-img-overlay"></div>
               
               <div class="badge-stack">
