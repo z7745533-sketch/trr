@@ -214,8 +214,24 @@
   </div>
 
   <script>
-    // Örnek araç verileri (İstediğiniz zaman buraya doğrudan ekleme yapabilirsiniz)
-    const rawCars = [];
+    // Tır ilanı başarıyla tanımlandı
+    const rawCars = [
+      {
+        id: 1,
+        title: "MERCEDES TIR",
+        seller: "Lütfü Uyar (@lutfu)",
+        hp: 150,
+        km: 200,
+        price: "Teklif Ver",
+        rawPrice: 0,
+        image: "WhatsApp Image 2026-08-08 at 13.02.04.jpeg",
+        hasW16: false,
+        hasLivery: true, // Özel far/cam tasarımı
+        isDeal: true,
+        isCoin: false
+      }
+    ];
+
     let favorites = [];
     let currentCategory = 'all';
 
@@ -274,7 +290,6 @@
         gallery.innerHTML = `
           <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-muted);">
             <h3 style="font-size: 1.5rem; margin-bottom: 10px;">🏎️ Henüz Vitrinde Araç Bulunmuyor</h3>
-            <p>Garaja araç eklemek için JavaScript kodundaki 'rawCars' dizisine verileri tanımlayabilirsiniz.</p>
           </div>
         `;
         return;
