@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPM Cyber-Neon Gallery v5.4</title>
+  <title>CPM Cyber-Neon Gallery v5.5</title>
   <style>
     :root {
       --bg-main: #050508;
-      --card-bg: rgba(15, 17, 26, 0.85);
+      --card-bg: rgba(15, 17, 26, 0.90);
       --card-inner: #121522;
       --border-color: #1f2438;
       --neon-cyan: #00f3ff;
@@ -27,8 +27,8 @@
       min-height: 100vh;
       padding-bottom: 100px;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 20%);
+        radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 25%);
       background-attachment: fixed;
     }
 
@@ -37,10 +37,10 @@
     /* --- CYBER HEADER --- */
     header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 25px; padding: 20px; background: var(--card-bg);
+      margin-bottom: 25px; padding: 20px 30px; background: var(--card-bg);
       border: 1px solid var(--border-color); border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-      backdrop-filter: blur(10px); flex-wrap: wrap; gap: 15px;
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.08);
+      backdrop-filter: blur(12px); flex-wrap: wrap; gap: 15px;
     }
 
     .logo-area h1 {
@@ -48,7 +48,7 @@
       text-transform: uppercase;
       background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+      text-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
     }
 
     .logo-area p { color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1px; margin-top: 4px; }
@@ -108,56 +108,79 @@
       box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); border-color: var(--neon-cyan);
     }
 
-    /* --- GALLERY GRID & NEON CARDS --- */
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 25px; }
+    /* --- GALLERY GRID & PREMIUM NEON CARDS --- */
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 25px; }
 
     .neon-card {
-      background: var(--card-bg); border-radius: 16px; overflow: hidden;
+      background: var(--card-bg); border-radius: 18px; overflow: hidden;
       border: 1px solid var(--border-color); position: relative; transition: all 0.4s ease;
-      cursor: pointer; display: flex; flex-direction: column;
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
 
     .neon-card:hover {
-      transform: translateY(-7px);
+      transform: translateY(-8px);
       border-color: var(--neon-cyan);
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
     }
 
-    .card-img-wrap { position: relative; width: 100%; height: 200px; background: #000; }
-    .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .card-img-wrap { position: relative; width: 100%; height: 220px; background: #000; overflow: hidden; }
+    .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .neon-card:hover .card-img-wrap img { transform: scale(1.05); }
 
-    .badge-stack { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 6px; z-index: 2; }
-    .cyber-badge { font-size: 0.65rem; padding: 4px 10px; border-radius: 4px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+    .card-img-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 40%, rgba(15,17,26,0.95) 100%);
+      pointer-events: none;
+    }
+
+    .badge-stack { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 6px; z-index: 2; }
+    .cyber-badge { font-size: 0.65rem; padding: 5px 10px; border-radius: 6px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
     .badge-deal { background: var(--neon-pink); color: #fff; box-shadow: 0 0 10px var(--neon-pink); }
     .badge-livery { background: var(--neon-purple); color: #fff; box-shadow: 0 0 10px var(--neon-purple); }
     .badge-w16 { background: var(--neon-yellow); color: #000; box-shadow: 0 0 10px var(--neon-yellow); }
 
-    .card-top-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 8px; z-index: 2; }
+    .card-top-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 8px; z-index: 2; }
     .icon-btn {
-      background: rgba(5, 5, 8, 0.8); border: 1px solid var(--border-color); color: #fff;
-      width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+      background: rgba(5, 5, 8, 0.85); border: 1px solid var(--border-color); color: #fff;
+      width: 38px; height: 38px; border-radius: 10px; cursor: pointer;
       display: flex; align-items: center; justify-content: center; transition: 0.3s;
+      backdrop-filter: blur(4px);
     }
 
-    .icon-btn.fav.active { color: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
+    .icon-btn.fav.active { color: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 12px var(--neon-pink); }
 
-    .card-body { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
-    .seller-info { font-size: 0.75rem; color: var(--neon-cyan); font-weight: 700; text-transform: uppercase; }
-    .car-title { font-size: 1.25rem; font-weight: 800; margin: 4px 0 10px 0; }
+    .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; z-index: 1; }
+    .seller-info { font-size: 0.8rem; color: var(--neon-cyan); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px; }
+    .car-title { font-size: 1.35rem; font-weight: 900; margin: 6px 0 12px 0; letter-spacing: 0.5px; color: #fff; }
 
     .specs-row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-      background: var(--card-inner); padding: 10px; border-radius: 8px;
-      font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.03);
+      background: var(--card-inner); padding: 12px; border-radius: 10px;
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);
     }
+
+    .specs-row div b { color: #fff; }
 
     .price-row {
       margin-top: auto; display: flex; justify-content: space-between; align-items: center;
-      padding-top: 12px; border-top: 1px solid var(--border-color);
+      padding-top: 15px; border-top: 1px solid var(--border-color); margin-bottom: 15px;
     }
 
-    .cyber-price { font-size: 1.25rem; font-weight: 900; color: var(--neon-green); text-shadow: 0 0 8px rgba(0, 255, 102, 0.4); }
-    .cyber-price.coin { color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255, 230, 0, 0.4); }
+    .cyber-price { font-size: 1.3rem; font-weight: 900; color: var(--neon-green); text-shadow: 0 0 10px rgba(0, 255, 102, 0.4); }
+
+    .btn-contact {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 12px; background: linear-gradient(45deg, #ff0050, #00f2fe);
+      border: none; border-radius: 10px; color: #fff; font-weight: 800;
+      text-decoration: none; font-size: 0.85rem; text-transform: uppercase;
+      letter-spacing: 1px; transition: 0.3s ease; box-shadow: 0 0 15px rgba(255, 0, 80, 0.3);
+    }
+
+    .btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(255, 0, 80, 0.7);
+    }
   </style>
 </head>
 <body>
@@ -204,7 +227,6 @@
         <button class="pill-cyber" onclick="setCategory('deal', this)">🔥 Fırsat Araçlar</button>
         <button class="pill-cyber" onclick="setCategory('livery', this)">🎨 Çizimli / Livery</button>
         <button class="pill-cyber" onclick="setCategory('w16', this)">⚡ W16 Motor</button>
-        <button class="pill-cyber" onclick="setCategory('coin', this)">🪙 Coin İle Satılanlar</button>
         <button class="pill-cyber" onclick="setCategory('favs', this)">♥ Favorilerim</button>
       </div>
     </div>
@@ -214,19 +236,20 @@
   </div>
 
   <script>
-    // Tır ilanı başarıyla tanımlandı
+    // Mercedes Tır İlan Verisi
     const rawCars = [
       {
         id: 1,
         title: "MERCEDES TIR",
-        seller: "Lütfü Uyar (@lutfu)",
+        seller: "Lütfü Uyar",
+        tiktok: "@lutfu",
         hp: 150,
         km: 200,
-        price: "Teklif Ver",
+        price: "TEKLİF ALINIR",
         rawPrice: 0,
         image: "WhatsApp Image 2026-08-08 at 13.02.04.jpeg",
         hasW16: false,
-        hasLivery: true, // Özel far/cam tasarımı
+        hasLivery: true, 
         isDeal: true,
         isCoin: false
       }
@@ -269,14 +292,13 @@
       const minHp = parseInt(document.getElementById('minHpInput').value) || 0;
 
       let filtered = rawCars.filter(car => {
-        const matchesSearch = car.title.toLowerCase().includes(search) || car.seller.toLowerCase().includes(search);
+        const matchesSearch = car.title.toLowerCase().includes(search) || car.seller.toLowerCase().includes(search) || car.tiktok.toLowerCase().includes(search);
         const matchesHp = car.hp >= minHp;
         
         let matchesCategory = true;
         if(currentCategory === 'deal') matchesCategory = car.isDeal;
         if(currentCategory === 'livery') matchesCategory = car.hasLivery;
         if(currentCategory === 'w16') matchesCategory = car.hasW16;
-        if(currentCategory === 'coin') matchesCategory = car.isCoin;
         if(currentCategory === 'favs') matchesCategory = favorites.includes(car.id);
 
         return matchesSearch && matchesHp && matchesCategory;
@@ -297,31 +319,44 @@
 
       gallery.innerHTML = filtered.map(car => {
         const isFav = favorites.includes(car.id);
+        const tiktokLink = car.tiktok.startsWith('@') ? `https://www.tiktok.com/${car.tiktok}` : `https://www.tiktok.com/@${car.tiktok}`;
+
         return `
           <div class="neon-card">
             <div class="card-img-wrap">
-              <img src="${car.image}" alt="${car.title}">
+              <img src="${car.image}" alt="${car.title}" onerror="this.src='https://via.placeholder.com/600x400/121522/00f3ff?text=Mercedes+Tir'">
+              <div class="card-img-overlay"></div>
+              
               <div class="badge-stack">
                 ${car.isDeal ? `<span class="cyber-badge badge-deal">🔥 HOT DEAL</span>` : ''}
                 ${car.hasW16 ? `<span class="cyber-badge badge-w16">⚡ W16</span>` : ''}
-                ${car.hasLivery ? `<span class="cyber-badge badge-livery">🎨 LIVERY</span>` : ''}
+                ${car.hasLivery ? `<span class="cyber-badge badge-livery">🎨 ÖZEL ÇİZİM</span>` : ''}
               </div>
+
               <div class="card-top-actions">
                 <button class="icon-btn fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(${car.id}, event)">
                   ${isFav ? '♥' : '♡'}
                 </button>
               </div>
             </div>
+
             <div class="card-body">
-              <div class="seller-info">👤 ${car.seller}</div>
+              <div class="seller-info">👤 ${car.seller} <span style="color: var(--text-muted);">(${car.tiktok})</span></div>
               <div class="car-title">${car.title}</div>
+              
               <div class="specs-row">
-                <div>⚡ <b>${car.hp}</b> HP</div>
-                <div>🛣️ <b>${car.km}</b> KM</div>
+                <div>⚡ Güç: <b>${car.hp} HP</b></div>
+                <div>🛣️ Mesafe: <b>${car.km} KM</b></div>
               </div>
+
               <div class="price-row">
-                <div class="cyber-price ${car.isCoin ? 'coin' : ''}">${car.price}</div>
+                <span style="font-size:0.75rem; color: var(--text-muted); text-transform: uppercase;">Fiyat Durumu:</span>
+                <div class="cyber-price">${car.price}</div>
               </div>
+
+              <a href="${tiktokLink}" target="_blank" class="btn-contact">
+                🎵 TikTok'tan Ulaş (${car.tiktok})
+              </a>
             </div>
           </div>
         `;
